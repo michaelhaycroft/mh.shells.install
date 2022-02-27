@@ -45,7 +45,7 @@ else
   popd
   sudo chown $USER $SHELLS_INSTALL_ROOT -R
   sudo chmod u+x $SHELLS_INSTALL_ROOT -R
-  if [[ "$INVOKE_INSTALLER" ]]; then
+  if [[ "$INVOKE_INSTALLER" == "1" ]]; then
     [[ ! -z "$(which datamash)" ]] || sudo dnf install datamash || sudo apt install datamash || echo "Error: failed to install datamash" # The install framework requires datamash
     bash "$SHELLS_INSTALL_ROOT/linux/scripts/install.sh" "$INSTALLER_PARAMETERS"
   fi
