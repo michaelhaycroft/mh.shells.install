@@ -11,7 +11,6 @@ echo "Shells install root:       $SHELLS_INSTALL_ROOT"
 echo "Install package managers?: $INSTALL_PACKAGE_MANAGERS"
 echo "Install packages?:         $INSTALL_PACKAGES"
 echo "Install configurations?:   $INSTALL_CONFIGURATIONS"
-exit
 
 if [[ "$INSTALL_PACKAGE_MANAGERS" == "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -p"
