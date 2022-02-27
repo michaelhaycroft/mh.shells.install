@@ -49,7 +49,13 @@ function SetupSshAccessToRepository() {
     rm -f "$GITHUB_SSH_KEY_OUTFILE"
     rm -f "$GITHUB_SSH_KEY_OUTFILE.pub"
     ssh-keygen -t ed25519 -C $GITHUB_USER_EMAIL -f $GITHUB_SSH_KEY_OUTFILE < <(echo -e "$GITHUB_SSH_PASSPHRASE\n$GITHUB_SSH_PASSPHRASE\n")
+    echo ""
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    echo ""
     cat $GITHUB_SSH_KEY_OUTFILE.pub
+    echo ""
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    echo ""
     echo "UPLOAD THE ABOVE GENERATED SSH PUBLIC KEY ($GITHUB_SSH_KEY_OUTFILE) TO GITHUB THEN PRESS ANY KEY TO CONTINUE"
     read
 }
