@@ -5,20 +5,25 @@ INSTALL_PACKAGE_MANAGERS="${2:-1}"
 INSTALL_PACKAGES="${3:-1}"
 INSTALL_CONFIGURATIONS="${3:-1}"
 INSTALLER_PARAMETERS=""
-echo $SHELLS_INSTALL_ROOT
-echo $INSTALL_PACKAGE_MANAGERS
-echo $INSTALL_PACKAGES
-echo INSTALL_CONFIGURATIONS
+INVOKE_INSTALLER="0"
 
+echo "Shells install root:       $SHELLS_INSTALL_ROOT"
+echo "Install package managers?: $INSTALL_PACKAGE_MANAGERS"
+echo "Install packages?:         $INSTALL_PACKAGES"
+echo "Install configurations?:   $INSTALL_CONFIGURATIONS"
 exit
+
 if [[ "$INSTALL_PACKAGE_MANAGERS" == "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -p"
+    INVOKE_INSTALLER="1"
 fi
 if [[ "$INSTALL_PACKAGES" != "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -i NONE"
+    INVOKE_INSTALLER="1"
 fi
 if [[ "$INSTALL_CONFIGURATIONS" != "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -c NONE"
+    INVOKE_INSTALLER="1"
 fi
 GIT_INSTALL_ERROR="0"
 [[ ! -z "$(which git)" ]] || sudo dnf install -y git-all || sudo apt install -y git-all || GIT_INSTALL_ERROR="1"
@@ -40,7 +45,7 @@ else
   popd
   sudo chown $USER $SHELLS_INSTALL_ROOT -R
   sudo chmod u+x $SHELLS_INSTALL_ROOT -R
-  if [[ "$INSTALL_PACKAGES" == "1" ]]; then
+  if [[ "$INVOKE_INSTALLER" ]]; then
     [[ ! -z "$(which datamash)" ]] || sudo dnf install datamash || sudo apt install datamash || echo "Error: failed to install datamash" # The install framework requires datamash
     bash "$SHELLS_INSTALL_ROOT/linux/scripts/install.sh" "$INSTALLER_PARAMETERS"
   fi
