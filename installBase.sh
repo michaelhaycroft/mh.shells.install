@@ -91,7 +91,7 @@ if [[ "$CLONE_PROJECT" == "1" ]]; then
     echo "Cloning shells to $SHELLS_INSTALL_ROOT"
     CloneShellsRepository
 else
-    if sudo test -d "SHELLS_INSTALL_ROOT"; then
+    if [[ -e "SHELLS_INSTALL_ROOT" ]]; then
         echo "Not re-cloning shells to $SHELLS_INSTALL_ROOT"
     else
         echo "ERROR: Clone project option was disabled but no path exists at the given shells install root $SHELLS_INSTALL_ROOT"
