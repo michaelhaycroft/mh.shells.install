@@ -101,5 +101,6 @@ fi
 if [[ "$INVOKE_INSTALLER" == "1" ]]; then
     InstallPackageOrFailAndExit "datamash"
     echo "Launching package installer"
-    bash "$SHELLS_INSTALL_ROOT/linux/scripts/install.sh" $INSTALLER_PARAMETERS
+    #bash "$SHELLS_INSTALL_ROOT/linux/scripts/install.sh" $INSTALLER_PARAMETERS
+    echo "bash \"$SHELLS_INSTALL_ROOT/linux/scripts/install.sh\" $INSTALLER_PARAMETERS"
 fi
