@@ -67,18 +67,18 @@ echo "Install configurations?:   $INSTALL_CONFIGURATIONS"
 LineBreak
 
 INSTALLER_PARAMETERS=""
-INVOKE_INSTALLER="0"
-if [[ "$INSTALL_PACKAGE_MANAGERS" == "1" ]]; then
+INVOKE_INSTALLER="1"
+if [[ "$INSTALL_PACKAGE_MANAGERS" != "1" && "$INSTALL_PACKAGES" != "1" && "$INSTALL_CONFIGURATIONS" != "1" ]]; then
+    INVOKE_INSTALLER="0"
+fi
+if [[ "$INSTALL_PACKAGE_MANAGERS" != "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -p"
-    INVOKE_INSTALLER="1"
 fi
 if [[ "$INSTALL_PACKAGES" != "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -i NONE"
-    INVOKE_INSTALLER="1"
 fi
 if [[ "$INSTALL_CONFIGURATIONS" != "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -c NONE"
-    INVOKE_INSTALLER="1"
 fi
 
 sudo echo "" # Ensure sudo privilege is available before beginning
