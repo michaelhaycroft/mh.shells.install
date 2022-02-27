@@ -62,6 +62,7 @@ function CloneShellsRepository() {
     sudo chmod u+x $SHELLS_INSTALL_ROOT -R
 }
 
+sudo echo "" # Ensure sudo privilege is available before beginning
 InstallPackageOrFailAndExit "git" "git-all"
 InstallPackageOrFailAndExit "ssh-keygen" "openssh-client"
 SetupSshAccessToRepository
