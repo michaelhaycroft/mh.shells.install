@@ -24,7 +24,6 @@ if [[ "$INSTALL_CONFIGURATIONS" != "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -c NONE"
     INVOKE_INSTALLER="1"
 fi
-GIT_INSTALL_ERROR="0"
 
 function InstallPackageOrFailAndExit() {
     local ExecutableName="$1"
@@ -64,7 +63,7 @@ function CloneShellsRepository() {
 }
 
 InstallPackageOrFailAndExit "git" "git-all"
-InstallPackageOrFailAndExit "ssh-keygen" "x"
+InstallPackageOrFailAndExit "ssh-keygen" "openssh-client"
 SetupSshAccessToRepository
 CloneShellsRepository
 if [[ "$INVOKE_INSTALLER" == "1" ]]; then
