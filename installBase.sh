@@ -4,14 +4,14 @@ SHELLS_INSTALL_ROOT="${1:-$DEFAULT_SHELLS_INSTALL_ROOT}"
 INSTALL_PACKAGE_MANAGERS="${2:-1}"
 INSTALL_PACKAGES="${3:-1}"
 INSTALL_CONFIGURATIONS="${3:-1}"
-INSTALLER_PARAMETERS=""
-INVOKE_INSTALLER="0"
 
 echo "Shells install root:       $SHELLS_INSTALL_ROOT"
 echo "Install package managers?: $INSTALL_PACKAGE_MANAGERS"
 echo "Install packages?:         $INSTALL_PACKAGES"
 echo "Install configurations?:   $INSTALL_CONFIGURATIONS"
 
+INSTALLER_PARAMETERS=""
+INVOKE_INSTALLER="0"
 if [[ "$INSTALL_PACKAGE_MANAGERS" == "1" ]]; then
     INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -p"
     INVOKE_INSTALLER="1"
@@ -69,5 +69,5 @@ CloneShellsRepository
 if [[ "$INVOKE_INSTALLER" == "1" ]]; then
     InstallPackageOrFailAndExit "datamash"
     echo "Launching package installer"
-    sudo bash "$SHELLS_INSTALL_ROOT/linux/scripts/install.sh" "$INSTALLER_PARAMETERS"
+    sudo bash "$SHELLS_INSTALL_ROOT/linux/scripts/install.sh" $INSTALLER_PARAMETERS
 fi
