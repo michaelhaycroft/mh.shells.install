@@ -88,12 +88,14 @@ if [[ "$GENERATE_SSH_KEYPAIR" == "1" ]]; then
     SetupSshAccessToRepository
 fi
 if [[ "$CLONE_PROJECT" == "1" ]]; then
+    echo "Cloning shells to $SHELLS_INSTALL_ROOT"
     CloneShellsRepository
 else
-    if [[ ! -d "SHELLS_INSTALL_ROOT" ]]; then
+    if sudo test ! -d "SHELLS_INSTALL_ROOT"; then
         echo "ERROR: Clone project option was disabled but no path exists at the given shells install root $SHELLS_INSTALL_ROOT"
         exit
     fi
+    echo "Not re-cloning shells to $SHELLS_INSTALL_ROOT"
 fi
 if [[ "$INVOKE_INSTALLER" == "1" ]]; then
     InstallPackageOrFailAndExit "datamash"
