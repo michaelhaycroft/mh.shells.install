@@ -3,7 +3,8 @@ DEFAULT_SHELLS_INSTALL_ROOT="/mh.shells"
 SHELLS_INSTALL_ROOT="${1:-$DEFAULT_SHELLS_INSTALL_ROOT}"
 INSTALL_PACKAGE_MANAGERS="${2:-1}"
 INSTALL_PACKAGES="${3:-1}"
-INSTALL_CONFIGURATIONS="${3:-1}"
+INSTALL_CONFIGURATIONS="${4:-1}"
+GENERATE_SSH_KEYPAIR="${5-1}"
 
 echo "Shells install root:       $SHELLS_INSTALL_ROOT"
 echo "Install package managers?: $INSTALL_PACKAGE_MANAGERS"
@@ -74,7 +75,9 @@ function CloneShellsRepository() {
 sudo echo "" # Ensure sudo privilege is available before beginning
 InstallPackageOrFailAndExit "git" "git-all"
 InstallPackageOrFailAndExit "ssh-keygen" "openssh-client"
-SetupSshAccessToRepository
+if [[ "$GENERATE_SSH_KEYPAIR" == "1" ]]; then
+    SetupSshAccessToRepository
+fi
 CloneShellsRepository
 if [[ "$INVOKE_INSTALLER" == "1" ]]; then
     InstallPackageOrFailAndExit "datamash"
