@@ -36,7 +36,7 @@ function InstallPackageOrFailAndExit() {
     if [[ -z "$(which "$ExecutableName")" ]]; then
         sudo dnf install -y "$PackageName" || \
         sudo apt-get install -y "$PackageName" || \
-        echo "Install of $ExecutableName failed" && \
+        echo "ERROR: Install of $ExecutableName failed" && \
         exit
         echo "$ExecutableName was installed"
     else
