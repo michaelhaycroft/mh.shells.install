@@ -1,12 +1,15 @@
 REPOSITORY_CLONE_URL="git@github.com:michaelhaycroft/mh.shells.git"
 DEFAULT_SHELLS_INSTALL_ROOT="/mh.shells"
 SHELLS_INSTALL_ROOT="${1:-$DEFAULT_SHELLS_INSTALL_ROOT}"
-INSTALL_PACKAGE_MANAGERS="${2:-1}"
-INSTALL_PACKAGES="${3:-1}"
-INSTALL_CONFIGURATIONS="${4:-1}"
-GENERATE_SSH_KEYPAIR="${5-1}"
+GENERATE_SSH_KEYPAIR="${2-1}"
+CLONE_PROJECT="${3-1}"
+INSTALL_PACKAGE_MANAGERS="${4:-1}"
+INSTALL_PACKAGES="${5:-1}"
+INSTALL_CONFIGURATIONS="${6:-1}"
 
 echo "Shells install root:       $SHELLS_INSTALL_ROOT"
+echo "Generate SSH keypair?:     $GENERATE_SSH_KEYPAIR"
+echo "Clone project?             $CLONE_PROJECT"
 echo "Install package managers?: $INSTALL_PACKAGE_MANAGERS"
 echo "Install packages?:         $INSTALL_PACKAGES"
 echo "Install configurations?:   $INSTALL_CONFIGURATIONS"
@@ -78,7 +81,14 @@ InstallPackageOrFailAndExit "ssh-keygen" "openssh-client"
 if [[ "$GENERATE_SSH_KEYPAIR" == "1" ]]; then
     SetupSshAccessToRepository
 fi
-CloneShellsRepository
+if [[ "$CLONE_PROJECT" == "1" ]]; then
+    CloneShellsRepository
+else
+    if [[ ! -d "SHELLS_INSTALL_ROOT" ]]; then
+        echo "ERROR: Clone project option was disabled but no path exists at the given shells install root"
+        exit
+    fi
+fi
 if [[ "$INVOKE_INSTALLER" == "1" ]]; then
     InstallPackageOrFailAndExit "datamash"
     echo "Launching package installer"
