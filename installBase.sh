@@ -1,33 +1,6 @@
-REPOSITORY_CLONE_URL="git@github.com:michaelhaycroft/mh.shells.git"
-DEFAULT_SHELLS_INSTALL_ROOT="/mh.shells"
-SHELLS_INSTALL_ROOT="${1:-$DEFAULT_SHELLS_INSTALL_ROOT}"
-GENERATE_SSH_KEYPAIR="${2-1}"
-CLONE_PROJECT="${3-1}"
-INSTALL_PACKAGE_MANAGERS="${4:-1}"
-INSTALL_PACKAGES="${5:-1}"
-INSTALL_CONFIGURATIONS="${6:-1}"
-
-echo "Shells install root:       $SHELLS_INSTALL_ROOT"
-echo "Generate SSH keypair?:     $GENERATE_SSH_KEYPAIR"
-echo "Clone project?             $CLONE_PROJECT"
-echo "Install package managers?: $INSTALL_PACKAGE_MANAGERS"
-echo "Install packages?:         $INSTALL_PACKAGES"
-echo "Install configurations?:   $INSTALL_CONFIGURATIONS"
-
-INSTALLER_PARAMETERS=""
-INVOKE_INSTALLER="0"
-if [[ "$INSTALL_PACKAGE_MANAGERS" == "1" ]]; then
-    INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -p"
-    INVOKE_INSTALLER="1"
-fi
-if [[ "$INSTALL_PACKAGES" != "1" ]]; then
-    INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -i NONE"
-    INVOKE_INSTALLER="1"
-fi
-if [[ "$INSTALL_CONFIGURATIONS" != "1" ]]; then
-    INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -c NONE"
-    INVOKE_INSTALLER="1"
-fi
+function LineBreak() {
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+}
 
 function InstallPackageOrFailAndExit() {
     local ExecutableName="$1"
@@ -54,11 +27,11 @@ function SetupSshAccessToRepository() {
     rm -f "$GITHUB_SSH_KEY_OUTFILE.pub"
     ssh-keygen -t ed25519 -C $GITHUB_USER_EMAIL -f $GITHUB_SSH_KEY_OUTFILE < <(echo -e "$GITHUB_SSH_PASSPHRASE\n$GITHUB_SSH_PASSPHRASE\n")
     echo ""
-    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    LineBreak
     echo ""
     cat $GITHUB_SSH_KEY_OUTFILE.pub
     echo ""
-    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    LineBreak
     echo ""
     echo "UPLOAD THE ABOVE GENERATED SSH PUBLIC KEY ($GITHUB_SSH_KEY_OUTFILE) TO GITHUB THEN PRESS ANY KEY TO CONTINUE"
     read
@@ -74,6 +47,39 @@ function CloneShellsRepository() {
     sudo chown $USER $SHELLS_INSTALL_ROOT -R
     sudo chmod u+x $SHELLS_INSTALL_ROOT -R
 }
+
+REPOSITORY_CLONE_URL="git@github.com:michaelhaycroft/mh.shells.git"
+DEFAULT_SHELLS_INSTALL_ROOT="/mh.shells"
+SHELLS_INSTALL_ROOT="${1:-$DEFAULT_SHELLS_INSTALL_ROOT}"
+GENERATE_SSH_KEYPAIR="${2-1}"
+CLONE_PROJECT="${3-1}"
+INSTALL_PACKAGE_MANAGERS="${4:-1}"
+INSTALL_PACKAGES="${5:-1}"
+INSTALL_CONFIGURATIONS="${6:-1}"
+
+LineBreak
+echo "Shells install root:       $SHELLS_INSTALL_ROOT"
+echo "Generate SSH keypair?:     $GENERATE_SSH_KEYPAIR"
+echo "Clone project?             $CLONE_PROJECT"
+echo "Install package managers?: $INSTALL_PACKAGE_MANAGERS"
+echo "Install packages?:         $INSTALL_PACKAGES"
+echo "Install configurations?:   $INSTALL_CONFIGURATIONS"
+LineBreak
+
+INSTALLER_PARAMETERS=""
+INVOKE_INSTALLER="0"
+if [[ "$INSTALL_PACKAGE_MANAGERS" == "1" ]]; then
+    INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -p"
+    INVOKE_INSTALLER="1"
+fi
+if [[ "$INSTALL_PACKAGES" != "1" ]]; then
+    INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -i NONE"
+    INVOKE_INSTALLER="1"
+fi
+if [[ "$INSTALL_CONFIGURATIONS" != "1" ]]; then
+    INSTALLER_PARAMETERS="${INSTALLER_PARAMETERS} -c NONE"
+    INVOKE_INSTALLER="1"
+fi
 
 sudo echo "" # Ensure sudo privilege is available before beginning
 InstallPackageOrFailAndExit "git" "git-all"
