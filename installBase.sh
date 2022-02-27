@@ -96,6 +96,7 @@ else
     else
         echo "ERROR: Clone project option was disabled but no path exists at the given shells install root $SHELLS_INSTALL_ROOT"
         exit
+        exit
     fi
 fi
 if [[ "$INVOKE_INSTALLER" == "1" ]]; then
