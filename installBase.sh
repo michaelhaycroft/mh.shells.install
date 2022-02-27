@@ -91,7 +91,7 @@ if [[ "$CLONE_PROJECT" == "1" ]]; then
     CloneShellsRepository
 else
     if [[ ! -d "SHELLS_INSTALL_ROOT" ]]; then
-        echo "ERROR: Clone project option was disabled but no path exists at the given shells install root"
+        echo "ERROR: Clone project option was disabled but no path exists at the given shells install root $SHELLS_INSTALL_ROOT"
         exit
     fi
 fi
