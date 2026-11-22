@@ -41,12 +41,9 @@ function CloneShellsRepository() {
     PARENT_DIR="$(dirname "$SHELLS_INSTALL_ROOT")"
     sudo mkdir -p "$PARENT_DIR"
     sudo chown $USER "$PARENT_DIR"
-    pushd $PARENT_DIR
     git clone "$REPOSITORY_CLONE_URL" "$SHELLS_INSTALL_ROOT"
-    git config --global --add -safe.directory "$SHELLS_INSTALL_ROOT"
-    popd
     sudo chown $USER "$SHELLS_INSTALL_ROOT" -R
-    sudo chmod u+x "$SHELLS_INSTALL_ROOT"
+    git config --global --add -safe.directory "$SHELLS_INSTALL_ROOT"
 }
 
 REPOSITORY_CLONE_URL="git@github.com:michaelhaycroft/mh.shells.git"
